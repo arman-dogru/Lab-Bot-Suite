@@ -1,0 +1,2 @@
+# Windows needs an IANA timezone database for America/Toronto.
+tzdata==2026.6; sys_platform == "win32"

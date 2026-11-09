@@ -1,0 +1,13 @@
+[Unit]
+Description=Make known Wi-Fi available headlessly and recover optional USB internet
+After=NetworkManager.service
+Wants=NetworkManager.service
+Before=jetson-clock.service
+
+[Service]
+Type=oneshot
+ExecStart=/usr/bin/python3 /opt/jetson-bot/deploy/jetson-network.py recover
+TimeoutStartSec=40
+
+[Install]
+WantedBy=multi-user.target

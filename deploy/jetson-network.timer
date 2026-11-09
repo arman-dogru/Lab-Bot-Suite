@@ -1,0 +1,10 @@
+[Unit]
+Description=Retry known Jetson network availability
+
+[Timer]
+OnBootSec=30
+OnUnitInactiveSec=60
+Unit=jetson-network.service
+
+[Install]
+WantedBy=timers.target

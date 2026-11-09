@@ -1,0 +1,13 @@
+[Unit]
+Description=Back up Jetson Bot state and projects
+After=jetson-budget.service
+StartLimitIntervalSec=1800
+StartLimitBurst=3
+
+[Service]
+Type=simple
+ExecStart=/usr/local/bin/jetsonctl backup
+TimeoutStartSec=900
+Restart=on-failure
+RestartSec=300
+UMask=0077

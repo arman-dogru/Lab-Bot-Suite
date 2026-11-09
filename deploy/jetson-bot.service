@@ -1,0 +1,17 @@
+[Unit]
+Description=Jetson Bot Hermes Discord agent
+Requires=jetson-budget.service
+PartOf=jetson-budget.service
+After=jetson-budget.service network-online.target
+ConditionPathExists=/etc/jetson-bot/ready
+StartLimitIntervalSec=0
+
+[Service]
+ExecStart=/opt/jetson-bot/deploy/run-hermes.sh
+ExecStop=/usr/bin/docker stop -t 60 jetson-hermes
+Restart=always
+RestartSec=15
+TimeoutStopSec=75
+
+[Install]
+WantedBy=multi-user.target

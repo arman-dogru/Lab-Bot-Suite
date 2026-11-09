@@ -1,0 +1,25 @@
+[Unit]
+Description=Jetson Bot private Discord status and task activity
+After=network-online.target jetson-budget.service
+Wants=network-online.target
+ConditionPathExists=/etc/jetson-bot/ready
+StartLimitIntervalSec=0
+
+[Service]
+User=jetsonbot
+Group=jetsonbot
+ExecStart=/usr/bin/python3 /opt/jetson-bot/jetson_bot/discord_watch.py
+Environment=TZ=America/Toronto
+Restart=always
+RestartSec=10
+MemoryMax=96M
+NoNewPrivileges=true
+ProtectSystem=strict
+ProtectHome=read-only
+PrivateTmp=true
+ReadWritePaths=/srv/jetson-bot/state/discord-watch
+StandardOutput=journal
+StandardError=journal
+
+[Install]
+WantedBy=multi-user.target

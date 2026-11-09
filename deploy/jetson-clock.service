@@ -1,0 +1,16 @@
+[Unit]
+Description=Recover Jetson clock from independent HTTPS Date sources
+After=network-online.target
+Wants=network-online.target
+Before=jetson-budget.service
+StartLimitIntervalSec=0
+
+[Service]
+Type=simple
+ExecStart=/usr/bin/python3 /opt/jetson-bot/deploy/clock_recover.py
+TimeoutStartSec=65
+Restart=on-failure
+RestartSec=30
+
+[Install]
+WantedBy=multi-user.target

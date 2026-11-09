@@ -1,0 +1,4 @@
+name: jetson-controls
+version: 1.7.0
+description: Quiet controls, bounded interrupted-goal recovery and shared chat/schedule execution capacity.
+author: Jetson Bot operator

@@ -1,0 +1,2 @@
+FROM nousresearch/hermes-agent@sha256:41f1cfdd2486b38ca55453a28785910b498ee184e71eed4f2d7ee3f908aa7236
+LABEL jetson.acceptance="replacement-and-rollback-test"

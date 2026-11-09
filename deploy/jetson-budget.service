@@ -1,0 +1,16 @@
+[Unit]
+Description=Jetson Bot local model budget gateway
+Requires=docker.service
+After=docker.service network-online.target jetson-clock.service
+Wants=network-online.target jetson-clock.service
+StartLimitIntervalSec=0
+
+[Service]
+ExecStart=/opt/jetson-bot/deploy/run-budget.sh
+ExecStop=/usr/bin/docker stop -t 30 jetson-budget
+Restart=always
+RestartSec=10
+TimeoutStopSec=40
+
+[Install]
+WantedBy=multi-user.target
