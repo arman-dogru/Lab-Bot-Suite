@@ -1,6 +1,7 @@
 import concurrent.futures
 import importlib.util
 import json
+import os
 import tempfile
 import unittest
 from pathlib import Path
@@ -77,7 +78,8 @@ class RecoveryStoreTests(unittest.TestCase):
         self.assertEqual(len(set(tokens)),1)
         self.assertEqual(len(self.store.pending()),1)
         self.assertNotIn('PRIVATE',json.dumps(self.store.pending()))
-        self.assertEqual(self.path.stat().st_mode & 0o777,0o600)
+        if os.name!='nt':
+            self.assertEqual(self.path.stat().st_mode & 0o777,0o600)
 
     def test_cron_records_cross_process_updates_and_stale_tokens_are_safe(self):
         self.store.begin('cron-request','cron-turn','cron-session',job_id='job123',execution_id='run123')

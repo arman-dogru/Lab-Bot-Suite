@@ -1,5 +1,6 @@
 import importlib.util
 import asyncio
+import os
 import unittest
 import sys
 import tempfile
@@ -24,7 +25,8 @@ class StatusRoutingTests(unittest.TestCase):
             self.assertIn('thread:69',records)
             self.assertNotIn('thread:0',records)
             self.assertNotIn('PRIVATE',controls._goal_starts_path().read_text())
-            self.assertEqual(controls._goal_starts_path().stat().st_mode & 0o777,0o600)
+            if os.name!='nt':
+                self.assertEqual(controls._goal_starts_path().stat().st_mode & 0o777,0o600)
 
     def test_status_channel_text_uses_local_controls(self):
         with patch.dict('os.environ', {'DISCORD_STATUS_CHANNEL': '123'}):

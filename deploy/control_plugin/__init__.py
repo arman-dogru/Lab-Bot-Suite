@@ -4,7 +4,9 @@ import hashlib
 import logging
 import os
 import re
+import stat
 import sys
+import time
 from pathlib import Path
 from types import MethodType
 from urllib.request import Request, urlopen
@@ -129,10 +131,23 @@ def _guard_path():
 
 
 def _save_guard(path,records):
-    temporary=path.with_suffix('.tmp')
-    with temporary.open('w') as stream:
-        os.chmod(str(temporary),0o600)
-        json.dump(records,stream)
+    temporary=path.with_name(path.name+'.tmp')
+    temporary.write_text(json.dumps(records))
+    if os.name=='nt':
+        os.chmod(str(temporary),stat.S_IWRITE)
+        for _ in range(8):
+            try:
+                if path.exists():
+                    os.chmod(str(path),stat.S_IWRITE)
+                os.replace(str(temporary),str(path))
+                return
+            except PermissionError:
+                time.sleep(0.05)
+        if path.exists():
+            os.chmod(str(path),stat.S_IWRITE)
+        os.replace(str(temporary),str(path))
+        return
+    os.chmod(str(temporary),0o600)
     os.replace(str(temporary),str(path))
 
 

@@ -19,7 +19,7 @@ switch ($Action) {
     }
     'Tunnel' {
         Write-Host 'Project Hub: http://127.0.0.1:8787/ (leave this terminal open)'
-        & ssh @sshOptions -o ExitOnForwardFailure=yes -N -L '127.0.0.1:8787:127.0.0.1:8787' $destination
+        & ssh @sshOptions -o ExitOnForwardFailure=yes -N -L '127.0.0.1:8787:127.0.0.1:8787' -L '127.0.0.1:8870:127.0.0.1:8870' -L '127.0.0.1:8871:127.0.0.1:8871' $destination
     }
     'Diagnostics' {
         & ssh @sshOptions $destination 'date -Is; uptime; ip -4 route; systemctl is-active jetson-budget jetson-bot jetson-project-hub jetson-discord-watch jetson-clock.timer jetson-backup.timer; curl -fsS --max-time 3 http://127.0.0.1:8870/health'
